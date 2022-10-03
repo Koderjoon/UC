@@ -1,0 +1,13 @@
+- data 관련
+1. branch.txt 파일은 branch 정보가 있음
+2. bus.txt 파일은 bus 정보가 있으며 발전량과 부하량은 UC 코드 안에서 넣어주게 됨
+3. load는 코드 안에 임의로 array를 만들었지만 향후 파일로 읽을 수 있게 수정 필요
+4. 모든 발전기 종류는 코드 안에서 추가했지만, 향후 data 파일(엑셀 등) 기반으로 읽어올 수 있게 수정 필요
+
+- 조류계산 제약 포함 방법
+1. 첫 번째 UC 수행시, MILP section(jupyter환경에서 3번째 칸)에서 109번째 줄에 있는 violationList = [] 항을 주석'해제' 한다.
+2. 마지막에서 두 번째 칸('조류계산으로 flow limit violation 확인' section)까지 순서대로 돌린다.
+3. 만약 flow limit을 위배한 경우가 발생하면, violation 확인 section에서 어느 시간대에 몇 번 branch에서 위배가 발생했는지 결과가 나오고, 위배한 branch가 없다면 아무 결과도 출력되지 않음.
+4. 만약 위배가 됐다면 다시 MILP section으로 가서, 이번엔 109번째 줄에 있는 violationList = [] 항을 주석처리하고 MILP section을 돌린다.
+5. 위배결과가 나오지 않을 때까지 2->3->4 반복한다. 
+(참고) 마지막 section print(violationList)을 돌리면 지금까지 추가된 위배 조건을 모두 확인할 수 있다. array의 첫 번째 항은 time index, 나머지는 branch index를 의미한다.
